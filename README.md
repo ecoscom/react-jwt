@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# Getting Started with JWT Auth
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+Tutorial JWT Auth: https://www.bezkoder.com/react-jwt-auth/
 
 ## Available Scripts
 
