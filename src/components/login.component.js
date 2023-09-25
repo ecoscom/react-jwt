@@ -31,7 +31,7 @@ class Login extends Component {
         };
     }
 
-    onChangeUserName(e) {
+    onChangeUsername(e) {
         this.setState({
             username: e.target.value
         });
@@ -95,7 +95,28 @@ class Login extends Component {
                             this.form = c;
                         }}
                     >
-
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                name="username"
+                                value={this.state.username}
+                                onChange={this.onChangeUsername}
+                                validations={[required]}
+                            />
+                        </div>
+                        <div className="fotm-group">
+                            <label htmlFor="password">Password</label>
+                            <Input 
+                                type="password"
+                                className="form-control"
+                                name="password"
+                                value={this.state.password}
+                                onChange={this.onChangePassword}
+                                validations={[required]}
+                            />
+                        </div>
                     </Form>
                 </div>
             </div>
