@@ -117,9 +117,35 @@ class Login extends Component {
                                 validations={[required]}
                             />
                         </div>
+                        <div className="form-group">
+                            <button
+                                className="btn btn-primary btn-block"
+                                disabled={this.state.loading}
+                            >
+                                {this.state.loading && (
+                                    <span className="spinner-border spinner-border-sm"></span>
+                                )}
+                                <span>Login</span>
+                            </button>
+                        </div>
+                        {this.state.message && (
+                            <div className="form-group">
+                                <div className="alert alert-danger" role="alert">
+                                    {this.state.message}
+                                </div>
+                            </div> 
+                        )}
+                        <CheckButton
+                            style={{ display: "none" }}
+                            ref={c => {
+                                this.checkBtn = c;
+                            }}
+                        />
                     </Form>
                 </div>
             </div>
-        )
+        );
     }
 }
+
+export default withRouter(Login);
