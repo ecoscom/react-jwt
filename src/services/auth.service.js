@@ -1,5 +1,4 @@
 import axios from "axios";
-import { response } from "express";
 
 const API_URL = "";
 
@@ -12,7 +11,7 @@ class AuthService {
             })
             .then(response => {
                 if (response.data.acessToken) {
-                    localStorage.setItem(user, JSON.stringify(response.data));
+                    localStorage.setItem("user", JSON.stringify(response.data));
                 }
 
                 return response.data;
@@ -36,4 +35,4 @@ class AuthService {
     }
 }
 
-export default AuthService();
+export default new AuthService();
