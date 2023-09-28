@@ -3,6 +3,9 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
+//import ReCAPTCHA from "react-google-recaptcha";
+import { GoogleReCaptchaProvider, GoogleReCaptcha } from 'react-google-recaptcha-v3';
+
 import AuthService from "../services/auth.service";
 
 import { withRouter } from "../common/with-router";
@@ -18,17 +21,22 @@ const required = value => {
 };
 
 class Login extends Component {
+    
     constructor(props) {
         super(props);
         this.handleLogin = this.handleLogin.bind(this);
-        this.onChangeUserName = this.onChangeUsername.bind(this);
+        this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
+        this.onVerifyReCaptcha = this.onVerifyReCaptcha.bind(this);
+
+        this.recaptchaAction = React.createRef("login");
 
         this.state = {
             username: "",
             password: "",
             loading: false,
-            message: ""
+            message: "",
+            tokenReCaptcha: ""
         };
     }
 
@@ -40,7 +48,13 @@ class Login extends Component {
 
     onChangePassword(e) {
         this.setState({
-            username: e.target.value
+            password: e.target.value
+        });
+    }
+
+    onVerifyReCaptcha(token) {
+        this.setState({
+            tokenReCaptcha : token
         });
     }
 
@@ -55,7 +69,8 @@ class Login extends Component {
         this.form.validateAll();
 
         if (this.checkBtn.context._errors.length === 0) {
-            AuthService.login(this.state.username, this.state.password).then(
+            
+            AuthService.login(this.state.username, this.state.password, this.recaptchaAction, this.recaptchaToken).then(
                 () => {
                     this.props.router.navigate("/profile");
                     window.location.reload();
@@ -83,6 +98,8 @@ class Login extends Component {
 
     render() {
         return (
+            <GoogleReCaptchaProvider
+                            reCaptchaKey="6LeciUQaAAAAAKoYsFbWCXv-abOPBF54tjfGUNEq">
             <div className="col-md-12">
                 <div className="card card-container">
                     <img 
@@ -119,9 +136,13 @@ class Login extends Component {
                             />
                         </div>
                         <div className="form-group">
+                        
+                            <GoogleReCaptcha onVerify={this.onVerifyReCaptcha} />
+                            
+                     
                             <button
                                 className="btn btn-primary btn-block"
-                                disabled={this.state.loading}
+                                disabled={this.state.loading && !this.state.capVal}
                             >
                                 {this.state.loading && (
                                     <span className="spinner-border spinner-border-sm"></span>
@@ -145,6 +166,7 @@ class Login extends Component {
                     </Form>
                 </div>
             </div>
+        </GoogleReCaptchaProvider>
         );
     }
 }

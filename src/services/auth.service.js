@@ -1,13 +1,16 @@
 import axios from "axios";
 
-const API_URL = "";
+const API_URL = "http://aguia.app.br:8080/api/rest/";
 
 class AuthService {
-    login(username, password) {
+    login(login, password, recaptchaAction, recaptchaToken) {
         return axios
-            .post(API_URL + "signin", {
-                username,
-                password
+            .post(API_URL + "token", {
+                login,
+                password,
+                recaptchaAction, 
+                recaptchaToken 
+
             })
             .then(response => {
                 if (response.data.acessToken) {
