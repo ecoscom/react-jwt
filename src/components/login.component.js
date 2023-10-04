@@ -29,7 +29,7 @@ class Login extends Component {
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onVerifyReCaptcha = this.onVerifyReCaptcha.bind(this);
 
-        this.recaptchaAction = React.createRef("login");
+        //this.recaptchaAction = React.createRef("login");
 
         this.state = {
             username: "",
@@ -70,7 +70,7 @@ class Login extends Component {
 
         if (this.checkBtn.context._errors.length === 0) {
             
-            AuthService.login(this.state.username, this.state.password, this.recaptchaAction, this.recaptchaToken).then(
+            AuthService.login(this.state.username, this.state.password, "login", this.state.tokenReCaptcha).then(
                 () => {
                     this.props.router.navigate("/profile");
                     window.location.reload();

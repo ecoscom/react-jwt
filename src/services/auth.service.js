@@ -1,24 +1,34 @@
 import axios from "axios";
 
-const API_URL = "http://aguia.app.br:8080/api/rest/";
+const API_URL = "https://aguia.app.br:8443/api/rest/";
 
 class AuthService {
     login(login, password, recaptchaAction, recaptchaToken) {
         return axios
-            .post(API_URL + "token", {
-                login,
-                password,
-                recaptchaAction, 
-                recaptchaToken 
-
-            })
+            .post(API_URL + "token", 
+                { 
+                    
+                        login,
+                        password,
+                        recaptchaAction, 
+                        recaptchaToken
+                },
+                   {
+                        'Content-Type' : 'application/json',
+                    }
+            )
             .then(response => {
-                if (response.data.acessToken) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
+                console.log(response)
+
+                if (response.data.value) {
+                    localStorage.setItem("user-ticket", JSON.stringify(response.data.value));
                 }
 
                 return response.data;
-            });
+            })
+            //.catch(r => {
+            //    console.log(r.response);
+            //});
     }
 
     logout() {
